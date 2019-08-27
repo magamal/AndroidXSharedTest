@@ -10,9 +10,9 @@ import net.orgiu.weightwatcher.databinding.WeightItemBinding
 
 class WeightHolder(private val binding: WeightItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindTo(uiModule: UiModule) {
+    fun bindTo(uiModel: UiModel) {
         with(binding) {
-            uiModel = uiModule
+            this.uiModel = uiModel
             executePendingBindings()
         }
     }
@@ -20,7 +20,7 @@ class WeightHolder(private val binding: WeightItemBinding) : RecyclerView.ViewHo
 
 class WeightAdapter(host: AppCompatActivity) : RecyclerView.Adapter<WeightHolder>() {
 
-    private val weights = arrayListOf<UiModule>()
+    private val weights = arrayListOf<UiModel>()
     private val inflater = LayoutInflater.from(host)
     private val host: LifecycleOwner = host
 
@@ -42,7 +42,7 @@ class WeightAdapter(host: AppCompatActivity) : RecyclerView.Adapter<WeightHolder
         holder.bindTo(weights[position])
     }
 
-    fun updateWeights(newWeights: List<UiModule>) {
+    fun updateWeights(newWeights: List<UiModel>) {
         with(weights) {
             clear()
             addAll(newWeights)

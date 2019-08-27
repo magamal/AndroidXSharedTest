@@ -7,13 +7,13 @@ import com.michaldrabik.classicmaterialtimepicker.CmtpDialogFragment
 import com.michaldrabik.classicmaterialtimepicker.utilities.setOnTime24PickedListener
 import com.vivekkaushik.datepicker.OnDateSelectedListener
 import kotlinx.android.synthetic.main.activity_weight_record.*
-import org.threeten.bp.Instant
+import net.orgiu.weightwatcher.storage.PreferencesWeightStorage
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 
 class WeightRecordActivity : AppCompatActivity() {
 
-    private val weightRepository by lazy { WeightRepository(this) }
+    private val weightRepository by lazy { WeightRepository(PreferencesWeightStorage(this)) }
 
     private var selectedDate = LocalDateTime.now()
 

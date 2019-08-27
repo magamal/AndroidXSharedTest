@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.serialization.UnstableDefault
+import net.orgiu.weightwatcher.storage.PreferencesWeightStorage
 
 @UnstableDefault
 class MainActivity : AppCompatActivity() {
 
     private val weightAdapter by lazy { WeightAdapter(this) }
-    private val weightRepository by lazy { WeightRepository(this) }
+    private val weightRepository by lazy { WeightRepository(PreferencesWeightStorage(this)) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

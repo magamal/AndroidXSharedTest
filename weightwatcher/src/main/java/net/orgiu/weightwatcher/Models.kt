@@ -31,10 +31,10 @@ data class Weight(
     @Serializable(with = InstantSerializer::class) val timestamp: Instant
 )
 
-data class UiModule(
+data class UiModel(
     val weight: String,
     val timestamp: String
 )
 
 fun Weight.toUiModule() =
-    UiModule(weight = "$value KG", timestamp = formatter.format(timestamp))
+    UiModel(weight = "$value KG", timestamp = formatter.format(timestamp))

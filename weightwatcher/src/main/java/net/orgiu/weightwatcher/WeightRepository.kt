@@ -1,37 +1,25 @@
 package net.orgiu.weightwatcher
 
-import android.content.Context
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.list
+import net.orgiu.weightwatcher.storage.Parser
+import net.orgiu.weightwatcher.storage.WeightParser
+import net.orgiu.weightwatcher.storage.WeightStorage
 
 @UnstableDefault
-class WeightRepository(context: Context) {
+class WeightRepository(
+    private val storage: WeightStorage,
+    private val parser: Parser<Weight, UiModel> = WeightParser()
+) {
 
-    companion object {
-        private const val STORAGE_KEY = "WeightData"
-    }
-
-    private val storage = PreferenceManager.getDefaultSharedPreferences(context)
 
     fun addWeight(weight: Weight) {
-        val weights = getWeights().toMutableList()
+        val weights = storage.fetch().toMutableList()
         weights.add(weight)
 
-        val json = Json.stringify(Weight.serializer().list, weights)
-        storage.edit {
-            putString(STORAGE_KEY, json)
-        }
+        storage.save(weights)
     }
 
-    private fun getWeights(): List<Weight> =
-        storage.getString(STORAGE_KEY, null)?.let {
-            Json.parse(Weight.serializer().list, it)
-        }.orEmpty()
-
-    fun fetchUiModels(): List<UiModule> =
-        getWeights().map { it.toUiModule() }
+    fun fetchUiModels(): List<UiModel> =
+        storage.fetch().map { parser.map(it) }
 
 }
